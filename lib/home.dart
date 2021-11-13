@@ -10,7 +10,7 @@ class MyHome extends StatefulWidget {
 }
 
 class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
-  TabController controller;
+  late TabController controller;
 
   @override
   void initState() {
