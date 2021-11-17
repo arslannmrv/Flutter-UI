@@ -1,295 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:twitter/models/twitter.dart';
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColorDark,
-      body: Container(
-        child: ListView(
+    final twitterDatas = TwitterData.fetchAll();
+    return ListView.builder(
+        itemCount: twitterDatas.length,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              _buildHomeListTile(context, index, twitterDatas),
+              Divider(
+                height: 10,
+              )
+            ],
+          );
+        });
+  }
+}
+
+Widget _buildHomeListTile(context, index, twitterDatas) {
+  return ListTile(
+    leading: CircleAvatar(
+      radius: 20,
+      backgroundImage: NetworkImage(twitterDatas[index].profileImage),
+    ),
+    title: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          twitterDatas[index].name,
+          style: TextStyle(
+              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Text(
+            "@account",
+            style: TextStyle(
+              color: Colors.white30,
+              fontSize: 16,
+            ),
+          ),
+        ),
+      ],
+    ),
+    subtitle: Wrap(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 5),
+              child: Text(
+                twitterDatas[index].tweet,
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: Image.network(
+                    twitterDatas[index].tweetImage,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  )),
+            ),
+          ],
+        ),
+        _buildTweetItem(),
+      ],
+    ),
+  );
+}
+
+Widget _buildTweetItem() {
+  return Row(
+    children: [
+      Expanded(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            new Container(
-              padding: EdgeInsets.only(top: 10.0),
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundImage: NetworkImage(
-                      'https://www.inovex.de/blog/wp-content/uploads/2019/01/Flutter-1-1.png'),
-                ),
-                title: Text(
-                  "Flutter",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                subtitle: Container(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut lab ore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    style: TextStyle(color: Colors.white, fontSize: 15.0),
-                  ),
-                ),
-              ),
+            IconButton(
+              icon: Icon(Icons.chat_bubble_outline),
+              color: Colors.white,
+              iconSize: 20,
+              onPressed: () {},
             ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new IconButton(
-                  icon: new Icon(Icons.speaker_notes),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0, left: 40.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.repeat),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.favorite_border),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.call_split),
-                  color: Colors.white,
-                  padding: new EdgeInsets.all(0.0),
-                  onPressed: () {},
-                ),
-              ],
+            IconButton(
+              icon: Icon(Icons.repeat),
+              color: Colors.white,
+              iconSize: 20,
+              onPressed: () {},
             ),
-            new Divider(
-              color: Colors.black45,
+            IconButton(
+              icon: Icon(Icons.favorite_border),
+              color: Colors.white,
+              iconSize: 20,
+              onPressed: () {},
             ),
-            new Container(
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundImage: NetworkImage(
-                      'https://pbs.twimg.com/profile_images/1111678689228582913/t2k7QK3r_400x400.png'),
-                ),
-                title: Text(
-                  "GDG",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                subtitle: Container(
-                  padding: EdgeInsets.only(top: 5.0),
-                  child: Text(
-                    "Lorem ipsum dolor sit amet, consecing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    style: TextStyle(color: Colors.white, fontSize: 15.0),
-                  ),
-                ),
-              ),
-            ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new IconButton(
-                  icon: new Icon(Icons.speaker_notes),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0, left: 40.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.repeat),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.favorite_border),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.call_split),
-                  color: Colors.white,
-                  padding: new EdgeInsets.all(0.0),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            new Divider(
-              color: Colors.black45,
-            ),
-            new Container(
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundImage: NetworkImage(
-                      'https://pbs.twimg.com/profile_images/1093585928642162688/oVdX1KD-_400x400.jpg'),
-                ),
-                title: Text(
-                  "Women Techmakers",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                subtitle: Container(
-                  padding: EdgeInsets.only(top: 5.0),
-                  child: Text(
-                    "Lorem ipsum , consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    style: TextStyle(color: Colors.white, fontSize: 15.0),
-                  ),
-                ),
-              ),
-            ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new IconButton(
-                  icon: new Icon(Icons.speaker_notes),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0, left: 40.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.repeat),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.favorite_border),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.call_split),
-                  color: Colors.white,
-                  padding: new EdgeInsets.all(0.0),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            new Divider(),
-            new Container(
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundImage: NetworkImage(
-                      'https://pbs.twimg.com/profile_images/2899657035/9c362f3925b029b91676cca2cfef3e5e_400x400.png'),
-                ),
-                title: Text(
-                  "GDG Eskişehir",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                subtitle: Container(
-                  padding: EdgeInsets.only(top: 5.0),
-                  child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    style: TextStyle(color: Colors.white, fontSize: 15.0),
-                  ),
-                ),
-              ),
-            ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new IconButton(
-                  icon: new Icon(Icons.speaker_notes),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0, left: 40.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.repeat),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.favorite_border),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.call_split),
-                  color: Colors.white,
-                  padding: new EdgeInsets.all(0.0),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            new Divider(),
-            new Container(
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundImage: NetworkImage(
-                      'https://pbs.twimg.com/profile_images/974775178587791361/meejaGSe_400x400.jpg'),
-                ),
-                title: Text(
-                  "Merve Arslan",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                subtitle: Container(
-                  padding: EdgeInsets.only(top: 5.0),
-                  child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    style: TextStyle(color: Colors.white, fontSize: 15.0),
-                  ),
-                ),
-              ),
-            ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new IconButton(
-                  icon: new Icon(Icons.speaker_notes),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0, left: 40.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.repeat),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.favorite_border),
-                  color: Colors.white,
-                  padding: new EdgeInsets.only(right: 50.0),
-                  onPressed: () {},
-                ),
-                new IconButton(
-                  icon: new Icon(Icons.call_split),
-                  color: Colors.white,
-                  padding: new EdgeInsets.all(0.0),
-                  onPressed: () {},
-                ),
-              ],
+            IconButton(
+              icon: Icon(Icons.ios_share),
+              color: Colors.white,
+              iconSize: 20,
+              onPressed: () {},
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.edit),
-        backgroundColor: Theme.of(context).accentColor,
-      ),
-    );
-  }
+    ],
+  );
 }
